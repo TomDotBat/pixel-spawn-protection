@@ -1,10 +1,14 @@
 
-local meta = FindMetaTable("Player")
+local plyMeta = FindMetaTable("Player")
+local entMeta = FindMetaTable("Entity")
 
 local corner1, corner2 = Vector(3665, 1368, -196), Vector(2920, 498, 168)
-function meta:IsInSpawn()
-    return self:GetPos():WithinAABox(corner1, corner2)
+local function isSelfInSpawn(s)
+    return s:GetPos():WithinAABox(corner1, corner2)
 end
+
+plyMeta.IsInSpawn = isSelfInSpawn
+entMeta.IsInSpawn = isSelfInSpawn
 
 local function falseInSpawn(ply)
     if ply:IsInSpawn() then return false end
