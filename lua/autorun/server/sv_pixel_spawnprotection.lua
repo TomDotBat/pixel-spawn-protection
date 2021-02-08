@@ -24,8 +24,6 @@ local function isSelfInSpawn(s, verify)
                 timer.Remove(ident)
             end
         end)
-
-        s:ChatPrint("beep boop")
     end
 
     return s.PIXELIsInSpawn
