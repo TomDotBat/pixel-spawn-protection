@@ -34,7 +34,7 @@ hook.Add("PlayerSpawn", "PIXEL.SpawnProtection.ResetState", function(ply, attack
                 timer.Remove("PIXEL.SpawnProtection.AreaCheck:" .. steamId)
             end
         end)
-    end) 
+    end)
 end)
 
 net.Receive("PIXEL.SpawnProtection.UpdateSpawnState", function(len, ply) isSelfInSpawn(ply, true) end) --Update the spawn state as requested

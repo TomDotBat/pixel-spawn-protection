@@ -24,11 +24,11 @@ local function loadUi()
 
     local centerX = ScrW() * .5
     local titleX = PIXEL.Scale(80)
-    
+
     local titleCol = PIXEL.Colors.Primary
     local descriptionCol = PIXEL.Colors.PrimaryText
     local textAlignCenter = TEXT_ALIGN_CENTER
-    
+
     hook.Add("HUDPaint", "PIXEL.SpawnProtection.Indicator", function()
         local _, titleH = PIXEL.DrawSimpleText("SPAWN", "PIXEL.SpawnProtection.Title", centerX, titleX, titleCol, textAlignCenter)
         PIXEL.DrawSimpleText("You are in spawn, roleplay is not permitted here.", "PIXEL.SpawnProtection.Description", centerX, titleX + titleH, descriptionCol, textAlignCenter)
@@ -58,7 +58,7 @@ timer.Create("PIXEL.SpawnProtection.AreaCheck", .5, 0, function()
 
     net.Start("PIXEL.SpawnProtection.UpdateSpawnState")
     net.SendToServer()
-        
+
     if inSpawn then loadUi()
     else unloadUi() end
 end)
