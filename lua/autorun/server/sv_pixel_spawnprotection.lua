@@ -1,6 +1,6 @@
 
 local corner1, corner2 = Vector(3665, 1368, -196), Vector(2920, 498, 168) --Spawn area config
-local verificationFrequency = 10
+local verificationFrequency = 2
 
 --Set the isInSpawn metamethods
 local plyMeta = FindMetaTable("Player")
@@ -8,7 +8,24 @@ local entMeta = FindMetaTable("Entity")
 
 local function isSelfInSpawn(s, verify)
     if verify then
-        s.PIXELIsInSpawn = s:GetPos():WithinAABox(corner1, corner2)
+        local inSpawn = s:GetPos():WithinAABox(corner1, corner2)
+        s.PIXELIsInSpawn = inSpawn
+
+        if not inSpawn then return inSpawn end --If they're in spawn we should create the serverside verification timer
+
+        local ident = "PIXEL.SpawnProtection.AreaCheck:" .. s:SteamID64()
+        timer.Create(ident, verificationFrequency, 0, function() --Serverside verify every x seconds
+            if not IsValid(s) then
+                timer.Remove(ident)
+                return
+            end
+
+            if not isSelfInSpawn(s, true) then --They're no longer in spawn so we've changed the state manually and removed the timer
+                timer.Remove(ident)
+            end
+        end)
+
+        s:ChatPrint("beep boop")
     end
 
     return s.PIXELIsInSpawn
@@ -21,19 +38,7 @@ entMeta.IsInSpawn = isSelfInSpawn
 hook.Add("PlayerSpawn", "PIXEL.SpawnProtection.ResetState", function(ply, attacker)
     timer.Simple(0, function() --Wait 1 tick to check their pos and update their inSpawn state
         if not IsValid(ply) then return end
-        if not isSelfInSpawn(ply, true) then return end --If they're in spawn we should create the serverside verification timer
-
-        local steamId = ply:SteamID64()
-        timer.Create("PIXEL.SpawnProtection.AreaCheck:" .. steamId, verificationFrequency, 0, function() --Serverside verify every x seconds
-            if not IsValid(ply) then
-                timer.Remove("PIXEL.SpawnProtection.AreaCheck:" .. steamId)
-                return
-            end
-
-            if not isSelfInSpawn(ply, true) then --They're no longer in spawn so we've changed the state manually and removed the timer
-                timer.Remove("PIXEL.SpawnProtection.AreaCheck:" .. steamId)
-            end
-        end)
+        isSelfInSpawn(ply, true)
     end)
 end)
 
