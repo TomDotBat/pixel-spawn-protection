@@ -30,8 +30,8 @@ local function loadUi()
     local textAlignCenter = TEXT_ALIGN_CENTER
 
     hook.Add("HUDPaint", "PIXEL.SpawnProtection.Indicator", function()
-        local _, titleH = PIXEL.DrawSimpleText("SPAWN", "PIXEL.SpawnProtection.Title", centerX, titleX, titleCol, textAlignCenter)
-        PIXEL.DrawSimpleText("You are in spawn, roleplay is not permitted here.", "PIXEL.SpawnProtection.Description", centerX, titleX + titleH, descriptionCol, textAlignCenter)
+        local _, titleH = PIXEL.DrawSimpleText("SPAWN", "SpawnProtection.Title", centerX, titleX, titleCol, textAlignCenter)
+        PIXEL.DrawSimpleText("You are in spawn, roleplay is not permitted here.", "SpawnProtection.Description", centerX, titleX + titleH, descriptionCol, textAlignCenter)
     end)
 end
 
