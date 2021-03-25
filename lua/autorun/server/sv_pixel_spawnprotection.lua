@@ -1,5 +1,6 @@
 
-local corner1, corner2 = Vector(3665, 1368, -196), Vector(2920, 498, 168) --Spawn area config
+local corner1, corner2 = Vector(-10284, 10948, -3004), Vector(-11506, 9924, -2440) --Spawn area config
+local corner3, corner4 = Vector(-9927, 10092, -30044), Vector(-10370, 10780, -2820)
 local verificationFrequency = 2
 
 --Set the isInSpawn metamethods
@@ -8,7 +9,7 @@ local entMeta = FindMetaTable("Entity")
 
 local function isSelfInSpawn(s, verify)
     if verify then
-        local inSpawn = s:GetPos():WithinAABox(corner1, corner2)
+        local inSpawn = s:GetPos():WithinAABox(corner1, corner2) or s:GetPos():WithinAABox(corner3, corner4)
         s.PIXELIsInSpawn = inSpawn
 
         if not inSpawn then return inSpawn end --If they're in spawn we should create the serverside verification timer
