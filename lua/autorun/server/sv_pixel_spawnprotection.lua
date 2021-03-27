@@ -56,7 +56,7 @@ util.AddNetworkString("PIXEL.SpawnProtection.UpdateSpawnState")
 
 --Disable sandbox/damage in spawn
 local function falseInSpawn(ply)
-    if ply.PIXELIsInSpawn then return false end
+    if ply.PIXELIsInSpawn and not ply:IsSuperAdmin() then return false end
 end
 
 hook.Add("PlayerSpawnProp", "PIXEL.SpawnProtection.DisableSpawning", falseInSpawn)
